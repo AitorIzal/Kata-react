@@ -9,6 +9,7 @@ function App() {
   );
 }
 
+// Formulario del ejercicio
 function Formulario() {
   return (
     <form onSubmit={handleSumbit}>
@@ -26,7 +27,7 @@ function Formulario() {
   );
 
   function handleSumbit(event: any) {
-    event?.preventDefault();
+    event.preventDefault();
     const vieiras: number = event.target.elements.vieiras.value;
     const pulpo: number = event.target.elements.pulpo.value;
     const centollos: number = event.target.elements.centollos.value;
@@ -34,17 +35,8 @@ function Formulario() {
     ganancias(vieiras, pulpo, centollos);
   }
 
-  function ganancias(v: number, p: number, c: number) {
-    /* const ciudades : Ciudad = 
-    {nombre : "Madrid", vieiras : 500, pulpo : 0, centollos: 450, kilometros : 800},
-    {nombre : "Barcelona", vieiras : 500, pulpo : 0, centollos: 450, kilometros : 800}
-    ; */
-
+  function ganancias(vieiras: number, pulpo: number, centollos: number) {
     // Variables para saber la cantidad de kg de cada tipo
-    const vieiras: number = v;
-    const pulpo: number = p;
-    const centollos: number = c;
-
     const ciudades = [
       {
         nombre: "Madrid",
@@ -74,11 +66,10 @@ function Formulario() {
     let barcelona: number;
     let lisboa: number;
 
-    // Funcion run
     for (let i: number = 0; i < ciudades.length; i++) {
       switch (ciudades[i].nombre) {
         case "Madrid":
-          madrid = ganancias(
+          madrid = precio(
             ciudades[i].vieiras,
             ciudades[i].pulpo,
             ciudades[i].centollos
@@ -86,7 +77,7 @@ function Formulario() {
           madrid -= impuestos(madrid, ciudades[i].distancia);
           break;
         case "Barcelona":
-          barcelona = ganancias(
+          barcelona = precio(
             ciudades[i].vieiras,
             ciudades[i].pulpo,
             ciudades[i].centollos
@@ -94,7 +85,7 @@ function Formulario() {
           barcelona -= impuestos(barcelona, ciudades[i].distancia);
           break;
         case "Lisboa":
-          lisboa = ganancias(
+          lisboa = precio(
             ciudades[i].vieiras,
             ciudades[i].pulpo,
             ciudades[i].centollos
@@ -106,8 +97,16 @@ function Formulario() {
     alert(resul());
 
     // Función para saber el precio conseguido con las ventas
-    function ganancias(v: number, p: number, c: number): number {
-      return v * vieiras + p * pulpo + c * centollos;
+    function precio(
+      precioVieiras: number,
+      precioPulpo: number,
+      precioCentollos: number
+    ): number {
+      return (
+        precioVieiras * vieiras +
+        precioPulpo * pulpo +
+        precioCentollos * centollos
+      );
     }
 
     // Función para calcular los impuestos
@@ -115,7 +114,8 @@ function Formulario() {
       return ciudad * (distancia / 100 / 100) + (5 + 2 * distancia);
     }
 
-    function resul() {
+    //Funcion para mostrar el resultado
+    function resul(): string {
       if (madrid > barcelona && madrid > lisboa) {
         return "Madrid es la ciudad con mayor beneficio";
       } else if (barcelona > lisboa) {
